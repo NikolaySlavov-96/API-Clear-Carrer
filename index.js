@@ -25,6 +25,10 @@ async function start() {
     await database(app);
     // https.createServer(option, app).listen(PORT, () => console.log('Server workin on ' + PORT));
 
+    app.get('/', (req, res) => {
+        res.json({ message: 'Contunue' }).end();
+    })
+
     useConfig(app);
     router(app);
 

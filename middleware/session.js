@@ -8,7 +8,7 @@ module.exports = () => (req, res, next) => {
         req.user = payload;
         req.token = token;
     } else {
-        res.status(401).jsow({ message: 'Invalid authorization token' });
+        res.status(401).json({ message: 'Invalid authorization token' });
     }
 
     next()

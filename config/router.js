@@ -3,9 +3,10 @@ const productController = require("../controllers/productController");
 
 
 module.exports = (app) => {
-    app.get('/', (req, res) => {
-        res.json({ message: 'REST API workin correct' });
-    })
     app.use('/users', authController);
-    app.use('/data', productController);
+    app.use('/data/offers', productController);
+    // app.use('/data/applications', );
+    app.get('*', (req, res) => {
+        res.status(404).json({ message: 'Page not Found' })
+    })
 }
