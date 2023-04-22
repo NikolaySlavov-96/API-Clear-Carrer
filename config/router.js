@@ -3,6 +3,10 @@ const productController = require("../controllers/productController");
 
 
 module.exports = (app) => {
+
+    app.get('/', (req, res) => {
+        res.json({ message: 'Success' })
+    })
     app.use('/users', authController);
     app.use('/data/offers', productController);
     // app.use('/data/applications', );

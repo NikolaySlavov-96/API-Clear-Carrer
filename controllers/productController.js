@@ -1,18 +1,17 @@
 const productController = require('express').Router();
-const { create } = require('../models/Product');
-const { getAll, getById, deleteById, updateProduct } = require('../servicess/productServices');
+const { getAll, getById, deleteById, updateProduct, createProduct } = require('../servicess/productServices');
 const { parserError } = require('../util/parser');
 
 
 productController.get('/', async (req, res) => {
-    // const product = await getAll();
-    res.json({});
+    const product = await getAll();
+    res.json(product);
 });
 
 productController.post('/', async (req, res) => {
     try {
         const data = Object.assign({ _ownerId: req.user._id }, req.body);
-        const item = await create(data);
+        const item = await createProduct(data);
         res.json(item)
     } catch (err) {
         const message = parserError(err);

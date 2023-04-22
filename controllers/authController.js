@@ -5,45 +5,37 @@ const { parserError } = require('../util/parser');
 
 
 
-authController.post('/login',
-    body('email').isEmpty().withMessage('Email field is required'),
-    body('password').isEmpty().withMessage('Password field is required'),
-    async (req, res) => {
-        try {
-            const { error } = validationResult(req);
-            if (error.length > 0) {
-                throw error;
-            }
-
-            const body = req.body;
-            const token = await login(body.email, body.password)
-        } catch (err) {
-            const message = parserError(err);
-            res.status(400).json({ message });
+authController.post('/login', async (req, res) => {
+    try {
+        const { error } = validationResult(req);
+        if (error.length > 0) {
+            throw error;
         }
-    });
 
-authController.post('/register',
-    body('email').isEmpty().withMessage('Email is required').bail(),
-    body('email').isEmail().withMessage('Email addres not valid form'),
-    body('password').isEmpty().withMessage('Password is required'),
-    async (req, res) => {
-        debugger
-        //TO DO Validation Password Length
-        try {
-            const { error } = validationResult(req);
-            if (error.length > 0) {
-                throw error;
-            }
+        const body = req.body;
+        const token = await login(body.email, body.password)
+    } catch (err) {
+        const message = parserError(err);
+        res.status(400).json({ message });
+    }
+});
 
-            const body = req.body;
-            const token = await register(body.email, body.password);
-            res.json(token);
-        } catch (err) {
-            const message = parserError(err);
-            res.status(400).json({ message });
+authController.post('/register', async (req, res) => {
+    //TO DO Validation Password Length
+    try {
+        const { errors } = validationResult(req);
+        if (errors.length > 0) {
+            throw errors;
         }
-    });
+
+        const body = req.body;
+        const token = await register(body.email, body.password);
+        res.json(token);
+    } catch (err) {
+        const message = parserError(err);
+        res.status(400).json({ message });
+    }
+});
 
 authController.get('/logout', async (req, res) => {
     const token = req.token;
