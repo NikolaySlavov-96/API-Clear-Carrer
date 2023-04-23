@@ -7,7 +7,6 @@ const router = require('./config/router');
 
 const PORT = 4010;
 
-/*
 const option = {
     key: fs.readFileSync('../key-PRK.pem'),
     cert: fs.readFileSync('../cert-CRT.pem'),
@@ -15,7 +14,6 @@ const option = {
         fs.readFileSync('../ca-bundle.pem'),
     ]
 }
-*/
 
 start();
 
@@ -23,10 +21,10 @@ async function start() {
 
     const app = express();
     await database(app);
-    // https.createServer(option, app).listen(PORT, () => console.log('Server workin on ' + PORT));
+    https.createServer(option, app).listen(PORT, () => console.log('Server workin on ' + PORT));
 
     useConfig(app);
     router(app);
 
-    app.listen(PORT, () => console.log('Server workin on ' + PORT));
+    // app.listen(PORT, () => console.log('Server workin on ' + PORT));
 }
