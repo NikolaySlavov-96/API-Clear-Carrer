@@ -5,7 +5,7 @@ const useConfig = require('./config/useConfig');
 const database = require('./config/database');
 const router = require('./config/router');
 
-const PORT = 3030;
+const PORT = 4010;
 
 /*
 const option = {
