@@ -1,4 +1,5 @@
 const productController = require('express').Router();
+const { hasUser } = require('../middleware/guards');
 const { getAll, getById, deleteById, updateProduct, createProduct } = require('../servicess/productServices');
 const { parserError } = require('../util/parser');
 
@@ -8,7 +9,7 @@ productController.get('/', async (req, res) => {
     res.json(product);
 });
 
-productController.post('/', async (req, res) => {
+productController.post('/', hasUser(), async (req, res) => {
     try {
         const data = Object.assign({ _ownerId: req.user._id }, req.body);
         const item = await createProduct(data);
@@ -24,7 +25,7 @@ productController.get('/:id', async (req, res) => {
     res.json(product);
 });
 
-productController.put('/:id', async (req, res) => {
+productController.put('/:id', hasUser(), async (req, res) => {
     const product = await getById(res.params.id);
     if (req.user._id != product._ownerId) {
         return res.status(403).json({ message: 'You cannot modify thhis records' });
@@ -39,7 +40,7 @@ productController.put('/:id', async (req, res) => {
     }
 });
 
-productController.delete('/:id', async (req, res) => {
+productController.delete('/:id', hasUser(), async (req, res) => {
     const product = await deleteById(req.params.id);
 
     if (req.user._id != product._ownerId) {
